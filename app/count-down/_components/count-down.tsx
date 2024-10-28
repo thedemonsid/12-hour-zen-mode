@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-const startTime = { hours: 21, minutes: 55, seconds: 0 }; // Replace with real data
+const startTime = { hours: 2, minutes: 55, seconds: 0 }; // Todo : Replace with real data
 
 const Box = ({ number }: { number: number }) => {
   return (
