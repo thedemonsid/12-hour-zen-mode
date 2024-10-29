@@ -14,7 +14,7 @@ export const zenSubmit = async (form: z.infer<typeof ZenSchema>) => {
     // });
     const zen = true;
     if (!zen) {
-      return { success: false, message: "Error while creatng zen" };
+      return { success: false, message: "Error while creatng zen",id:1 };
     }
     return { success: true, message: "Login successful" };
   } catch (error) {

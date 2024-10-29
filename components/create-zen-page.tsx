@@ -27,7 +27,9 @@ export function CreateZenPageComponent() {
     console.log("Form Data:", data);
     const response = await zenSubmit(data);
     console.log("Response:", response);
-    router.push("/count-down");
+    if (response.success) {
+      router.push(`/zen-mode/${response.id}`);
+    }
   };
 
   return (

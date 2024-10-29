@@ -76,7 +76,7 @@ export function ZenTimerLanding() {
             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => router.push("/zen")}
+            onClick={() => router.push("/create-zen")}
           >
             Start Your Zen
           </motion.button>

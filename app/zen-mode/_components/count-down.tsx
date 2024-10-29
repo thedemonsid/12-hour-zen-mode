@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-const createdAt = { hours: 2, minutes: 55, seconds: 0 }; // Todo : Replace with real data
+const createdAt = { hours: 18, minutes: 0, seconds: 0 }; // Todo : Replace with real data
 const pausedTime = { hours: 0, minutes: 0, seconds: 0 }; // Todo : Replace with real data
 const Box = ({ number }: { number: number }) => {
   return (
@@ -16,9 +16,9 @@ const Colon = () => {
 
 const CountDownComponent = () => {
   const [time, setTime] = useState({
-    hours: new Date().getHours(),
-    minutes: new Date().getMinutes(),
-    seconds: new Date().getSeconds(),
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
   });
 
   useEffect(() => {
