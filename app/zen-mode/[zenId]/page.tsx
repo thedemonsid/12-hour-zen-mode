@@ -25,14 +25,19 @@ const CountDown = async ({ params }: { params: { zenId: string } }) => {
     seconds: zen?.createdAt.getSeconds(),
   };
   // zen has elapsed time in seconds convert it into hours, minutes, and seconds
-  const pausedTime = {
-    hours: Math.floor(zen?.elapsedTime / 3600),
-    minutes: Math.floor((zen?.elapsedTime % 3600) / 60),
-    seconds: zen?.elapsedTime % 60,
+  const pausedAt = {
+    hours: zen?.pausedAt.getHours(),
+    minutes: zen?.pausedAt.getMinutes(),
+    seconds: zen?.pausedAt.getSeconds(),
   };
-  console.log(createdAt, pausedTime);
+  const startedAt = {
+    hours: zen?.startedAt.getHours(),
+    minutes: zen?.startedAt.getMinutes(),
+    seconds: zen?.startedAt.getSeconds(),
+  };
+  console.log(createdAt, pausedAt);
 
-  return <CountDownComponent createdAt={createdAt} pausedTime={pausedTime} />;
+  return <CountDownComponent createdAt={createdAt} pausedAt={pausedAt} startedAt={startedAt}/>;
 };
 
 export default CountDown;

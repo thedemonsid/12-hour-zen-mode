@@ -31,7 +31,8 @@ model Zen {
   description String?
   preZen      String? // todo: Markdown Formated pre zen plans
   postZen     String? // todo: Markdown Formated post zen feelings
-  elapsedTime Int      @default(0) //* whenever a zen is created, the elapsedTime is set to 0 seconds, and it is updated every time the zen is paused
+  pausedAt    DateTime @default(now()) 
+  startedAt   DateTime @default(now())
   tasks       Task[]
   user        User     @relation(fields: [userId], references: [id])
   userId      Int
