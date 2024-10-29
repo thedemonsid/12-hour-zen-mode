@@ -18,26 +18,13 @@ const CountDown = async ({ params }: { params: { zenId: string } }) => {
   if (!zen) {
     return <div>Error: Zen session not found.</div>;
   }
-  console.log(zen);
   const createdAt = {
     hours: zen?.createdAt.getHours(),
     minutes: zen?.createdAt.getMinutes(),
     seconds: zen?.createdAt.getSeconds(),
   };
-  // zen has elapsed time in seconds convert it into hours, minutes, and seconds
-  const pausedAt = {
-    hours: zen?.pausedAt.getHours(),
-    minutes: zen?.pausedAt.getMinutes(),
-    seconds: zen?.pausedAt.getSeconds(),
-  };
-  const startedAt = {
-    hours: zen?.startedAt.getHours(),
-    minutes: zen?.startedAt.getMinutes(),
-    seconds: zen?.startedAt.getSeconds(),
-  };
-  console.log(createdAt, pausedAt);
 
-  return <CountDownComponent createdAt={createdAt} pausedAt={pausedAt} startedAt={startedAt}/>;
+  return <CountDownComponent createdAt={createdAt} />;
 };
 
 export default CountDown;

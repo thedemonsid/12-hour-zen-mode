@@ -1,4 +1,6 @@
 "use client";
+import { Pause } from "@/actions/pause-count-down";
+import Start from "@/actions/start-count-down";
 import { Button } from "@/components/ui/button";
 import React, { useState, useEffect } from "react";
 
@@ -16,21 +18,17 @@ const Colon = () => {
 
 interface CountDownProps {
   createdAt: { hours: number; minutes: number; seconds: number };
-  pausedAt: { hours: number; minutes: number; seconds: number };
-  startedAt: { hours: number; minutes: number; seconds: number };
 }
 
-const CountDownComponent = ({
-  createdAt,
-  pausedAt,
-  startedAt,
-}: CountDownProps) => {
+const CountDownComponent = ({ createdAt }: CountDownProps) => {
+  const [pausedTime, setPausedTime] = useState(0);
   const [time, setTime] = useState({
     hours: 0,
     minutes: 0,
     seconds: 0,
   });
-  const [isPaused, setIsPaused] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
+  console.log(pausedTime);
 
   useEffect(() => {
     if (isPaused) return; // Skip if paused
@@ -39,23 +37,17 @@ const CountDownComponent = ({
       const now = new Date();
 
       // Calculate the time elapsed since the start time, considering paused time
-      const elapsedHours =
-        now.getHours() - createdAt.hours - (startedAt.hours - pausedAt.hours);
-      const elapsedMinutes =
-        now.getMinutes() -
-        createdAt.minutes -
-        (startedAt.minutes - pausedAt.minutes);
-      const elapsedSeconds =
-        now.getSeconds() -
-        createdAt.seconds -
-        (startedAt.seconds - pausedAt.seconds);
+      const elapsedHours = now.getHours() - createdAt.hours;
+      const elapsedMinutes = now.getMinutes() - createdAt.minutes;
+      const elapsedSeconds = now.getSeconds() - createdAt.seconds;
 
       // Calculate total elapsed seconds
       const totalElapsedSeconds =
         elapsedHours * 3600 + elapsedMinutes * 60 + elapsedSeconds;
 
       // Calculate remaining seconds for 12 hours
-      const totalRemainingSeconds = 12 * 3600 - totalElapsedSeconds;
+      const totalRemainingSeconds =
+        12 * 3600 - totalElapsedSeconds + pausedTime;
 
       if (totalRemainingSeconds <= 0) {
         setTime({ hours: 0, minutes: 0, seconds: 0 });
@@ -72,13 +64,22 @@ const CountDownComponent = ({
     }, 1000);
 
     return () => clearInterval(interval); // Clean up the interval on component unmount
-  }, [isPaused, createdAt, pausedAt]);
+  }, [isPaused, createdAt]);
 
-  const handleStart = () => {
+  const handleStart = async () => {
+    const result = await Start({ id: 1 });
+    if (!result.success) {
+      return;
+    }
+    if (result.pausedTime) setPausedTime(result.pausedTime);
     setIsPaused(false);
   };
 
-  const handlePause = () => {
+  const handlePause = async () => {
+    const result = await Pause({ id: 1 });
+    if (!result.success) {
+      return;
+    }
     setIsPaused(true);
   };
 
