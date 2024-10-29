@@ -3,10 +3,9 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FiClock, FiList, FiBarChart2 } from "react-icons/fi";
-
+import { useRouter } from "next/navigation";
 const useCountdown = (initialTime: number) => {
   const [time, setTime] = useState(initialTime);
-
   useEffect(() => {
     const timer = setInterval(() => {
       setTime((prevTime) => (prevTime > 0 ? prevTime - 1 : initialTime));
@@ -28,7 +27,7 @@ const useCountdown = (initialTime: number) => {
 
 export function ZenTimerLanding() {
   const countdownTime = useCountdown(43200); // 12 hours in seconds
-
+  const router = useRouter();
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-gray-100">
       <header className="container mx-auto px-4 py-8">
@@ -77,6 +76,7 @@ export function ZenTimerLanding() {
             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => router.push("/zen")}
           >
             Start Your Zen
           </motion.button>
@@ -211,7 +211,9 @@ export function ZenTimerLanding() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <p className="text-gray-400 mb-4">&quot;{testimonial.quote}&quot;</p>
+                <p className="text-gray-400 mb-4">
+                  &quot;{testimonial.quote}&quot;
+                </p>
                 <p className="font-bold">- {testimonial.name}</p>
               </motion.div>
             ))}

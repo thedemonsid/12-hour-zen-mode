@@ -10,8 +10,10 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ZenSchema } from "@/schemas"; // Assuming the schema is defined in this path
 import { zenSubmit } from "@/actions/zen-submit";
+import { useRouter } from "next/navigation";
 
 export function CreateZenPageComponent() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof ZenSchema>>({
     resolver: zodResolver(ZenSchema),
     defaultValues: {
@@ -25,6 +27,7 @@ export function CreateZenPageComponent() {
     console.log("Form Data:", data);
     const response = await zenSubmit(data);
     console.log("Response:", response);
+    router.push("/count-down");
   };
 
   return (

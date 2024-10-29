@@ -9,15 +9,13 @@ export const zenSubmit = async (form: z.infer<typeof ZenSchema>) => {
   }
   const { title, description, preZenPlan } = validatedFields.data;
   try {
-    const zen = prisma.zen.create({
-      data: {
-        title,
-        description,
-        preZen: preZenPlan,
-        userId: 1, // Todo : Replace with real logic to connect user
-      },
-    });
-
+    // const zen = prisma.zen.findUnique({
+    //   where: {title: title},
+    // });
+    const zen = true;
+    if (!zen) {
+      return { success: false, message: "Error while creatng zen" };
+    }
     return { success: true, message: "Login successful" };
   } catch (error) {
     return { success: false, message: "Error in submitting" };
