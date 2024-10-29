@@ -33,7 +33,7 @@ const CountDownComponent = () => {
         now.getSeconds() - createdAt.seconds - pausedTime.seconds;
 
       // Calculate total elapsed seconds
-      let totalElapsedSeconds =
+      const totalElapsedSeconds =
         elapsedHours * 3600 + elapsedMinutes * 60 + elapsedSeconds;
 
       // Calculate remaining seconds for 12 hours
