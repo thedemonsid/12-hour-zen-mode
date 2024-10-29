@@ -1,3 +1,4 @@
+import { ZenTimerLanding } from "@/components/zen-timer-landing";
 export default function Home() {
-  return <div className="text-center">Zen Mode 12 hour</div>;
+  return <ZenTimerLanding />;
 }
