@@ -65,7 +65,8 @@ export function CreateZenPageComponent() {
 
               <Card className="bg-gray-800 border-gray-700 mb-6">
                 <CardHeader>
-                  <CardTitle className="text-blue-500">Pre-Zen Plan</CardTitle>
+                  <CardTitle className="text-blue-500">Pre-Zen Plan</CardTitle>{" "}
+                  // Todo : Implement a markdown editor like Typora
                 </CardHeader>
                 <CardContent>
                   <FormField
