@@ -175,7 +175,7 @@ const FormField = ({
   rows,
 }: {
   label?: string;
-  form: any;
+  form: any; // Todo : Add proper type & solve other lintng errors
   name: string;
   placeholder: string;
   isTextarea?: boolean;
