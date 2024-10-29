@@ -1,6 +1,4 @@
 "use client";
-
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -11,41 +9,22 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ZenSchema } from "@/schemas"; // Assuming the schema is defined in this path
+import { zenSubmit } from "@/actions/zen-submit";
 
 export function CreateZenPageComponent() {
-  // Initialize form state and validation with React Hook Form
   const form = useForm<z.infer<typeof ZenSchema>>({
     resolver: zodResolver(ZenSchema),
     defaultValues: {
       title: "",
       description: "",
       preZenPlan: "",
-      tasks: [],
     },
   });
 
-  // Handle task state separately for input and management
-  const [newTask, setNewTask] = useState("");
-
-  // Add task to the form data
-  const addTask = () => {
-    if (newTask.trim()) {
-      form.setValue("tasks", [...form.getValues("tasks"), newTask]);
-      setNewTask("");
-    }
-  };
-
-  // Remove task by index
-  const removeTask = (index: number) => {
-    form.setValue(
-      "tasks",
-      form.getValues("tasks").filter((_, i) => i !== index)
-    );
-  };
-
-  // Handle form submission
-  const onSubmit = (data: z.infer<typeof ZenSchema>) => {
-    console.log("Form Data:", data); // Replace with actual submit logic
+  const onSubmit = async (data: z.infer<typeof ZenSchema>) => {
+    console.log("Form Data:", data);
+    const response = await zenSubmit(data);
+    console.log("Response:", response);
   };
 
   return (
@@ -56,7 +35,6 @@ export function CreateZenPageComponent() {
         transition={{ duration: 0.5 }}
         className="max-w-3xl mx-auto"
       >
-        {/* Header Section */}
         <h1 className="text-4xl font-bold text-center mb-2">
           Create Your Zen Session
         </h1>
@@ -65,22 +43,18 @@ export function CreateZenPageComponent() {
           distraction-free 12 hours.
         </p>
 
-        {/* Session Details Card */}
         <Card className="bg-gray-800 border-gray-700 mb-6">
           <CardHeader>
             <CardTitle className="text-blue-500">Session Details</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {/* Title Field */}
               <FormField
                 label="Zen Title"
                 form={form}
                 name="title"
                 placeholder="Enter your session title"
               />
-
-              {/* Description Field */}
               <FormField
                 label="Zen Description"
                 form={form}
@@ -89,7 +63,6 @@ export function CreateZenPageComponent() {
                 isTextarea
               />
 
-              {/* Pre-Zen Plan */}
               <Card className="bg-gray-800 border-gray-700 mb-6">
                 <CardHeader>
                   <CardTitle className="text-blue-500">Pre-Zen Plan</CardTitle>
@@ -104,54 +77,9 @@ export function CreateZenPageComponent() {
                   />
                 </CardContent>
               </Card>
-
-              {/* Task List */}
-              <Card className="bg-gray-800 border-gray-700">
-                <CardHeader>
-                  <CardTitle className="text-blue-500">Tasks List</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex space-x-2 mb-4">
-                    <Input
-                      placeholder="Add a new task"
-                      value={newTask}
-                      onChange={(e) => setNewTask(e.target.value)}
-                      className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
-                    />
-                    <Button
-                      onClick={addTask}
-                      className="bg-blue-600 hover:bg-blue-700 text-white"
-                    >
-                      Add
-                    </Button>
-                  </div>
-                  <ul className="space-y-2">
-                    {form.getValues("tasks").map((task, index) => (
-                      <motion.li
-                        key={index}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 20 }}
-                        transition={{ duration: 0.3 }}
-                        className="flex items-center justify-between bg-gray-700  text-gray-100 p-2 rounded"
-                      >
-                        <span>{task}</span>
-                        <Button
-                          onClick={() => removeTask(index)}
-                          className="bg-red-600 hover:bg-red-700 text-white"
-                          size="sm"
-                        >
-                          Remove
-                        </Button>
-                      </motion.li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-
               {/* Submit Button */}
               <Button
-                type="submit"
+                type="submit" // Triggers form submission
                 size="lg"
                 className="w-full mt-8 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg"
               >
@@ -175,7 +103,7 @@ const FormField = ({
   rows,
 }: {
   label?: string;
-  form: any; // Todo : Add proper type & solve other lintng errors
+  form: any;
   name: string;
   placeholder: string;
   isTextarea?: boolean;

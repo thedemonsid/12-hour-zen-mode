@@ -15,9 +15,8 @@ export const ZenSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters long"),
   description: z
     .string()
-    .min(4, "Description must be at least 4 characters long"),
+    .min(10, "Description must be at least 10 characters long"),
   preZenPlan: z
     .string()
-    .min(4, "Pre-Zen Plan must be at least 4 characters long"),
-  tasks: z.array(z.string().min(3, "Task must be at least 3 characters long")),
+    .min(25, "Pre-Zen Plan must be at least 25 characters long"),
 });
