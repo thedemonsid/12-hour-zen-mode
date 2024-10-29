@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-const createdAt = { hours: 18, minutes: 0, seconds: 0 }; // Todo : Replace with real data
-const pausedTime = { hours: 0, minutes: 0, seconds: 0 }; // Todo : Replace with real data
+// const createdAt = { hours: 18, minutes: 0, seconds: 0 }; // Todo : Replace with real data
+// const pausedTime = { hours: 0, minutes: 0, seconds: 0 }; // Todo : Replace with real data
 const Box = ({ number }: { number: number }) => {
   return (
     <div className="flex justify-center items-center text-7xl font-bold text-white bg-transparent">
@@ -13,8 +13,11 @@ const Box = ({ number }: { number: number }) => {
 const Colon = () => {
   return <div className="text-7xl font-bold text-slate-300">:</div>;
 };
-
-const CountDownComponent = () => {
+interface CountDownProps {
+  createdAt: { hours: number; minutes: number; seconds: number };
+  pausedTime: { hours: number; minutes: number; seconds: number };
+}
+const CountDownComponent = ({ createdAt, pausedTime }: CountDownProps) => {
   const [time, setTime] = useState({
     hours: 0,
     minutes: 0,
