@@ -14,10 +14,15 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  createdAt DateTime @default(now())
-  Zen       Zen[]
+  id            Int      @id @default(autoincrement())
+  username      String   @unique
+  email         String   @unique
+  password      String?
+  picture       String?
+  bio           String?
+  socialHandles String[]
+  createdAt     DateTime @default(now())
+  Zen           Zen[]
 }
 
 model Zen {
@@ -25,7 +30,8 @@ model Zen {
   title       String
   description String?
   preZen      String? // todo: Markdown Formated pre zen plans
-  postZen     String? // todo: Markdown Formated post zen plans
+  postZen     String? // todo: Markdown Formated post zen feelings
+  elapsedTime Int      @default(0) //* whenever a zen is created, the elapsedTime is set to 0 seconds, and it is updated every time the zen is paused
   tasks       Task[]
   user        User     @relation(fields: [userId], references: [id])
   userId      Int

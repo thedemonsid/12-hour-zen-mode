@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-const startTime = { hours: 2, minutes: 55, seconds: 0 }; // Todo : Replace with real data
-
+const createdAt = { hours: 2, minutes: 55, seconds: 0 }; // Todo : Replace with real data
+const pausedTime = { hours: 0, minutes: 0, seconds: 0 }; // Todo : Replace with real data
 const Box = ({ number }: { number: number }) => {
   return (
     <div className="flex justify-center items-center text-7xl font-bold text-white bg-transparent">
@@ -26,9 +26,11 @@ const CountDownComponent = () => {
       const now = new Date();
 
       // Calculate the time elapsed since the start time
-      const elapsedHours = now.getHours() - startTime.hours;
-      const elapsedMinutes = now.getMinutes() - startTime.minutes;
-      const elapsedSeconds = now.getSeconds() - startTime.seconds;
+      const elapsedHours = now.getHours() - createdAt.hours - pausedTime.hours;
+      const elapsedMinutes =
+        now.getMinutes() - createdAt.minutes - pausedTime.minutes;
+      const elapsedSeconds =
+        now.getSeconds() - createdAt.seconds - pausedTime.seconds;
 
       // Calculate total elapsed seconds
       let totalElapsedSeconds =
