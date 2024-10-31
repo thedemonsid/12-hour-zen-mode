@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,30 +8,54 @@ datasource db {
 }
 
 model User {
-  id            Int      @id @default(autoincrement())
-  username      String   @unique
-  email         String   @unique
+  id            Int            @id @default(autoincrement())
+  username      String         @unique
+  email         String         @unique
   password      String?
   picture       String?
   bio           String?
-  socialHandles String[]
-  createdAt     DateTime @default(now())
-  Zen           Zen[]
+  socialHandles SocialHandle[]
+  createdAt     DateTime       @default(now())
+  zens          Zen[]
+
+  @@map("users")
+}
+
+model SocialHandle {
+  id       Int      @id @default(autoincrement())
+  platform Platform
+  handle   String
+  user     User     @relation(fields: [userId], references: [id])
+  userId   Int
+
+  @@unique([platform, handle, userId]) //* Prevent duplicate handles per platform per user
+  @@map("social_handles")
+}
+
+enum Platform {
+  TWITTER
+  LINKEDIN
+  GITHUB
 }
 
 model Zen {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String?
-  preZen      String? // todo: Markdown Formated pre zen plans
-  postZen     String? // todo: Markdown Formated post zen feelings
-  pausedAt    DateTime @default(now()) 
-  startedAt   DateTime @default(now())
-  pausedTime  Int      @default(0) //* Paused Time in seconds
-  tasks       Task[]
-  user        User     @relation(fields: [userId], references: [id])
-  userId      Int
-  createdAt   DateTime @default(now())
+  id    Int    @id @default(autoincrement())
+  title String
+  plan  String
+
+  //* Timer-related fields
+  startTime DateTime?
+  endTime   DateTime?
+  duration  Int?
+  remaining Int?
+
+  tasks     Task[]
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("zens")
 }
 
 model Task {
@@ -46,6 +64,10 @@ model Task {
   description String?
   completed   Boolean  @default(false)
   createdAt   DateTime @default(now())
-  Zen         Zen?     @relation(fields: [zenId], references: [id])
-  zenId       Int?
+
+  zen   Zen? @relation(fields: [zenId], references: [id])
+  zenId Int?
+
+  @@index([zenId])
+  @@map("tasks")
 }
