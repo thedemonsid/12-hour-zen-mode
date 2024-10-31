@@ -1,4 +1,5 @@
-import { ZenTimerLanding } from "@/components/zen-timer-landing";
+import Counter from "@/components/count-down/counter";
+
 export default function Home() {
-  return <ZenTimerLanding />;
+  return <Counter></Counter>;
 }
