@@ -1,46 +1,8 @@
 "use client";
-import { cn } from "@/lib/utils";
-import { chakra_petch } from "@/app/fonts";
+import { Timer } from "./timer";
 import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 
-function Box({ num }: { num: number }) {
-  return (
-    <div className="flex items-center justify-center w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 dark:bg-gray-800 dark:text-white  rounded-lg shadow-lg">
-      <span className="text-5xl md:text-6xl lg:text-7xl font-bold">
-        {String(num).padStart(2, "0")}
-      </span>
-    </div>
-  );
-}
-function Timer({
-  hours,
-  minutes,
-  seconds,
-}: {
-  hours: number;
-  minutes: number;
-  seconds: number;
-}) {
-  return (
-    <div
-      className={cn(
-        "flex flex-col md:flex-row items-center justify-center gap-4 p-4 rounded-lg shadow-lg",
-        `${chakra_petch.className}`
-      )}
-    >
-      <Box num={hours} />
-      <span className="text-5xl md:text-6xl lg:text-7xl text-white">:</span>
-      <Box num={minutes} />
-      <span className="text-5xl md:text-6xl lg:text-7xl text-white">:</span>
-      <Box num={seconds} />
-    </div>
-  );
-}
-interface StateProps {
-  onboardingComplete: Boolean;
-  timerIsRunning: Boolean;
-}
 let TargetTime = new Date(2024, 10, 16, 22, 0, 0);
 
 export default function Counter() {
