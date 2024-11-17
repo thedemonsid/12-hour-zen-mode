@@ -4,7 +4,6 @@ import { Zap } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { useState } from "react";
-
 interface NavbarProps {
   isLoggedIn?: boolean;
   userImage?: string;
