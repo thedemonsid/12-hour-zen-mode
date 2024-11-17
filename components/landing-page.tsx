@@ -5,6 +5,7 @@ import { Sparkles, Clock, ListTodo, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "./navbar";
+import CountDown from "./ui/count-down-landing";
 
 export function LandingPageComponent() {
   return (
@@ -56,7 +57,7 @@ export function LandingPageComponent() {
                   <Button
                     key={label}
                     variant="outline"
-                    className="h-12 px-6 gap-2"
+                    className="h-12 px-6 gap-2 bg-transparent text-gray-900 transition-colors shadow-sm"
                   >
                     <Icon className="w-5 h-5" />
                     {label}
@@ -66,13 +67,7 @@ export function LandingPageComponent() {
 
               {/* App Preview */}
               <div className="mt-16 rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
-                <Image
-                  src="/landing.jpg?height=600&width=1200"
-                  alt="ProcrastiNot app interface showing productivity dashboard and task management"
-                  width={1200}
-                  height={600}
-                  className="w-full"
-                />
+                <CountDown></CountDown>
               </div>
             </div>
           </div>

@@ -14,7 +14,7 @@ const Navbar = ({ isLoggedIn = false, userImage = "" }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-1/2 bg-white border-b border-gray-100 mt-4 shadow-md rounded-lg">
+    <header className="sticky top-0 z-50 w-1/2 bg-transparent border border-sky-100 mt-4 shadow-lg rounded-lg">
       <div className="h-16 px-4 flex items-center justify-between max-w-7xl mx-auto">
         <Link className="flex items-center justify-center gap-2" href="/">
           <div className="w-8 h-8 bg-[#2C2F35] rounded-lg flex items-center justify-center">
