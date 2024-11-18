@@ -35,11 +35,11 @@ export function CardWrapper({
       </div>
       <div className="w-full lg:w-1/2 flex items-center justify-center p-4 z-10">
         <Card className="w-full max-w-md border-none">
-          <CardHeader className="space-y-1 flex flex-col items-center">
-            <div className="h-12 w-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+          <CardHeader className="space-y-6 flex flex-col items-center">
+            <div className="h-12 w-12 bg-blue-100 rounded-xl flex items-center justify-center">
               <BookOpen className="h-6 w-6 text-blue-600" />
             </div>
-            <CardTitle className="text-3xl font-bold text-gray-900">
+            <CardTitle className="text-4xl font-bold text-gray-900">
               {title}
             </CardTitle>
             <CardDescription className="text-gray-600 text-center">

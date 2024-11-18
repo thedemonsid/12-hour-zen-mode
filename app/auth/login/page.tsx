@@ -12,10 +12,10 @@ const Login = () => {
   return (
     <CardWrapper
       backButtonLabel="Sign Up"
-      backButtonHref="/"
+      backButtonHref="/auth/register"
       backButtonMessage="Don't have an account ?"
-      title="Hello There"
-      description="Its never late to start"
+      title="Welcome Back"
+      description="Believe in yourself and all that you are. You can achieve greatness!"
       showsocial
     >
       <form className="space-y-6">
