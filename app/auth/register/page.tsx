@@ -2,11 +2,25 @@
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Eye, EyeOff, Mail } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, AtSign, User } from "lucide-react";
 import React, { useState } from "react";
-
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { RegisterInput, registerSchema } from "@/schemas";
+import ErrorMessage from "@/components/auth/error-message";
 const Register = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<RegisterInput>({
+    resolver: zodResolver(registerSchema),
+  });
   const [showPassword, setShowPassword] = useState(false);
+  const onSubmit = async (data: RegisterInput) => {
+    console.log(data);
+  };
   return (
     <CardWrapper
       backButtonLabel="Sign In"
@@ -16,22 +30,42 @@ const Register = () => {
       description="Believe in yourself and all that you are. You can achieve greatness!"
       showsocial
     >
-      <form className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="space-y-4">
           <div className="flex gap-2">
-            <Input
-              type="first_name"
-              placeholder="First Name"
-              className="w-full px-4 py-2 border border-purple-200 rounded-lg focus:ring-2 focus:ring-blue-500 pr-10"
-            />
-            <Input
-              type="last_name"
-              placeholder="Last Name"
-              className="w-full px-4 py-2 border border-purple-200 rounded-lg focus:ring-2 focus:ring-blue-500 pr-10"
-            />
+            <div>
+              <Input
+                {...register("firstname")}
+                type="text"
+                placeholder="First Name"
+                className="w-full px-4 py-2 border border-purple-200 rounded-lg focus:ring-2 focus:ring-blue-500 pr-10"
+              />
+            </div>
+            <div>
+              <Input
+                type="text"
+                {...register("lastname")}
+                placeholder="Last Name"
+                className="w-full px-4 py-2 border border-purple-200 rounded-lg focus:ring-2 focus:ring-blue-500 pr-10"
+              />
+            </div>
           </div>
+          {errors.firstname && (
+            <ErrorMessage
+              message={errors.firstname.message as string}
+              icon={User}
+            />
+          )}
+          {errors.lastname && (
+            <ErrorMessage
+              message={errors.lastname.message as string}
+              icon={User}
+            />
+          )}
+
           <div className="relative">
             <Input
+              {...register("email")}
               type="email"
               placeholder="Email"
               className="w-full px-4 py-2 border border-purple-200 rounded-lg focus:ring-2 focus:ring-blue-500 pr-10"
@@ -43,9 +77,16 @@ const Register = () => {
               <Mail className="h-5 w-5" />
             </button>
           </div>
+          {errors.email && (
+            <ErrorMessage
+              message={errors.email.message as string}
+              icon={AtSign}
+            />
+          )}
           <div className="relative">
             <Input
               type={showPassword ? "text" : "password"}
+              {...register("password")}
               placeholder="Password"
               className="w-full px-4 py-2 border border-purple-200 rounded-lg focus:ring-2 focus:ring-blue-500 pr-10"
             />
@@ -61,6 +102,12 @@ const Register = () => {
               )}
             </button>
           </div>
+          {errors.password && (
+            <ErrorMessage
+              message={errors.password.message as string}
+              icon={Lock}
+            />
+          )}
         </div>
 
         {/* <div className="flex items-center justify-between">
@@ -75,7 +122,11 @@ const Register = () => {
           </Link>
         </div> */}
 
-        <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors">
+        <Button
+          disabled={isSubmitting}
+          type="submit"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors"
+        >
           Register
         </Button>
       </form>

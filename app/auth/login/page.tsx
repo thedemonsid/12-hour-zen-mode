@@ -6,9 +6,22 @@ import { Input } from "@/components/ui/input";
 import { Eye, EyeOff, Mail } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, LoginInput } from "@/schemas";
 
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginInput>({
+    resolver: zodResolver(loginSchema),
+  });
   const [showPassword, setShowPassword] = useState(false);
+  const onSubmit = async (data: LoginInput) => {
+    console.log(data);
+  };
   return (
     <CardWrapper
       backButtonLabel="Sign Up"
@@ -18,13 +31,14 @@ const Login = () => {
       description="Believe in yourself and all that you are. You can achieve greatness!"
       showsocial
     >
-      <form className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="space-y-4">
           <div className="relative">
             <Input
+              {...register("email")}
               type="email"
               placeholder="Email"
-              className="w-full px-4 py-2 border border-purple-200 rounded-lg focus:ring-2 focus:ring-blue-500 pr-10"
+              className="w-full px-4 py-2 border bordusernameer-purple-200 rounded-lg focus:ring-2 focus:ring-blue-500 pr-10"
             />
             <button
               type="button"
@@ -33,8 +47,12 @@ const Login = () => {
               <Mail className="h-5 w-5" />
             </button>
           </div>
+          {errors.email && (
+            <p className=" mt-2 text-sm text-red-600 flex items-center">{`${errors.email.message}`}</p>
+          )}
           <div className="relative">
             <Input
+              {...register("password")}
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               className="w-full px-4 py-2 border border-purple-200 rounded-lg focus:ring-2 focus:ring-blue-500 pr-10"
@@ -51,6 +69,9 @@ const Login = () => {
               )}
             </button>
           </div>
+          {errors.password && (
+            <p className="mt-2 text-sm text-red-600 flex items-center">{`${errors.password.message}`}</p>
+          )}
         </div>
 
         <div className="flex items-center justify-between">
@@ -65,7 +86,11 @@ const Login = () => {
           </Link>
         </div>
 
-        <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors">
+        <Button
+          disabled={isSubmitting}
+          type="submit"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-colors"
+        >
           Login
         </Button>
       </form>
