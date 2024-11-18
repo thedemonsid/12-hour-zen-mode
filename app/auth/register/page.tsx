@@ -36,7 +36,7 @@ const Register = () => {
           <div className="flex gap-2">
             <div>
               <Input
-                {...register("firstname")}
+                {...register("firstName")}
                 type="text"
                 placeholder="First Name"
                 className="w-full px-4 py-2 border border-purple-200 rounded-lg focus:ring-2 focus:ring-blue-500 pr-10"
@@ -45,21 +45,21 @@ const Register = () => {
             <div>
               <Input
                 type="text"
-                {...register("lastname")}
+                {...register("lastName")}
                 placeholder="Last Name"
                 className="w-full px-4 py-2 border border-purple-200 rounded-lg focus:ring-2 focus:ring-blue-500 pr-10"
               />
             </div>
           </div>
-          {errors.firstname && (
+          {errors.firstName && (
             <ErrorMessage
-              message={errors.firstname.message as string}
+              message={errors.firstName.message as string}
               icon={User}
             />
           )}
-          {errors.lastname && (
+          {errors.lastName && (
             <ErrorMessage
-              message={errors.lastname.message as string}
+              message={errors.lastName.message as string}
               icon={User}
             />
           )}
