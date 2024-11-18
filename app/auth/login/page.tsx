@@ -3,12 +3,13 @@ import { CardWrapper } from "@/components/auth/card-wrapper";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { Eye, EyeOff, Mail } from "lucide-react";
+import { AtSign, Eye, EyeOff, Lock, Mail } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginInput } from "@/schemas";
+import ErrorMessage from "@/components/auth/error-message";
 
 const Login = () => {
   const {
@@ -48,7 +49,10 @@ const Login = () => {
             </button>
           </div>
           {errors.email && (
-            <p className=" mt-2 text-sm text-red-600 flex items-center">{`${errors.email.message}`}</p>
+            <ErrorMessage
+              message={errors.email.message as string}
+              icon={AtSign}
+            ></ErrorMessage>
           )}
           <div className="relative">
             <Input
@@ -70,7 +74,10 @@ const Login = () => {
             </button>
           </div>
           {errors.password && (
-            <p className="mt-2 text-sm text-red-600 flex items-center">{`${errors.password.message}`}</p>
+            <ErrorMessage
+              message={errors.password.message as string}
+              icon={Lock}
+            ></ErrorMessage>
           )}
         </div>
 
