@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterInput, registerSchema } from "@/schemas";
 import ErrorMessage from "@/components/auth/error-message";
+import { registerUser } from "@/actions/register";
 const Register = () => {
   const {
     register,
@@ -19,7 +20,7 @@ const Register = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const onSubmit = async (data: RegisterInput) => {
-    console.log(data);
+    await registerUser(data);
   };
   return (
     <CardWrapper

@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginInput } from "@/schemas";
 import ErrorMessage from "@/components/auth/error-message";
+import { loginUser } from "@/actions/login";
 
 const Login = () => {
   const {
@@ -21,7 +22,7 @@ const Login = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const onSubmit = async (data: LoginInput) => {
-    console.log(data);
+    await loginUser(data);
   };
   return (
     <CardWrapper
