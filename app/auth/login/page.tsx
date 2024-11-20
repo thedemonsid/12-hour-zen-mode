@@ -16,13 +16,26 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
   });
   const [showPassword, setShowPassword] = useState(false);
   const onSubmit = async (data: LoginInput) => {
-    await loginUser(data);
+    const response = await loginUser(data);
+    if (!response) {
+      console.log("Something went wrong!");
+
+      setError("password", { message: "Something went wrong!" });
+      return;
+    }
+    console.log(response);
+    if (response.success) {
+      console.log("Login successful");
+      return;
+    }
+    setError("password", { message: response.message as string });
   };
   return (
     <CardWrapper

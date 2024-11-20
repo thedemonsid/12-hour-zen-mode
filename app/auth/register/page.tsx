@@ -9,18 +9,30 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterInput, registerSchema } from "@/schemas";
 import ErrorMessage from "@/components/auth/error-message";
 import { registerUser } from "@/actions/register";
+import { redirect } from "next/navigation";
 const Register = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
+    setError,
   } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
   });
   const [showPassword, setShowPassword] = useState(false);
   const onSubmit = async (data: RegisterInput) => {
-    await registerUser(data);
+    const response = await registerUser(data);
+    console.log(response);
+    if (response.success) {
+      reset();
+      redirect("/auth/login");
+    }
+    if (response.message === "Email already exists")
+      setError("email", { message: response.message as string });
+    else {
+      setError("root", { message: response.message as string });
+    }
   };
   return (
     <CardWrapper
@@ -108,6 +120,9 @@ const Register = () => {
               message={errors.password.message as string}
               icon={Lock}
             />
+          )}
+          {errors.root && (
+            <ErrorMessage message={errors.root.message as string} icon={Lock} />
           )}
         </div>
 
