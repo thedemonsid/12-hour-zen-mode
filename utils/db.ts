@@ -30,3 +30,24 @@ export async function getUserById(id: string, pwHash?: string) {
     },
   });
 }
+export async function updateUserEmailVerification(email: string) {
+  const isUser = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+  if (!isUser) {
+    throw new Error("User not found.");
+  }
+  if (isUser.emailVerified) {
+    throw new Error("Email already verified.");
+  }
+  return await prisma.user.update({
+    where: {
+      email,
+    },
+    data: {
+      emailVerified: new Date(),
+    },
+  });
+}

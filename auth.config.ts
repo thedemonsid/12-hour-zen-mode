@@ -5,7 +5,7 @@ import type { NextAuthConfig } from "next-auth";
 import { loginSchema } from "./schemas";
 import { ZodError } from "zod";
 import bcrypt from "bcryptjs";
-import { getUserByEmail } from "./utils/db";
+import { getUserByEmail, updateUserEmailVerification } from "./utils/db";
 // Notice this is only an object, not a full Auth.js instance
 export default {
   providers: [
@@ -52,8 +52,6 @@ export default {
   ],
   callbacks: {
     jwt({ token, user }) {
-      console.log("User: ", user);
-
       if (user) {
         token.id = user.id;
       }
@@ -62,6 +60,17 @@ export default {
     session({ session, token }) {
       if (token) session.user.id = token.id as string;
       return session;
+    },
+  },
+  events: {
+    async signIn(message) {
+      // console.log("Sign in event: ", message);
+      if (message.account?.provider === "github") {
+        updateUserEmailVerification(message.user.email as string);
+      }
+      if (message.account?.provider === "google") {
+        updateUserEmailVerification(message.user.email as string);
+      }
     },
   },
   pages: {
