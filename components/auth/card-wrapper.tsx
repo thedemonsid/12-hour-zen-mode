@@ -54,6 +54,9 @@ export function CardWrapper({
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
+                    onClick={() => {
+                      signIn("google");
+                    }}
                     className="w-full border border-purple-200 hover:bg-gray-50 text-gray-700 py-2 rounded-lg flex items-center justify-center gap-2"
                   >
                     <svg className="h-5 w-5" viewBox="0 0 24 24">

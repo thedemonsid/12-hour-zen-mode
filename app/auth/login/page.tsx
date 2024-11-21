@@ -11,7 +11,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginInput } from "@/schemas";
 import ErrorMessage from "@/components/auth/error-message";
 import { loginUser } from "@/actions/login";
-
+import { useSearchParams } from "next/navigation";
+const errorMessages: Record<string, string> = {
+  CredentialsSignin: "Invalid credentials. Please try again.",
+  AccountNotLinked: "This account is not linked with our system.",
+  OAuthAccountNotLinked:
+    "OAuth Account is not linked. Please use another sign-in method.",
+  // Todo: Add more error types and messages as needed
+};
 const Login = () => {
   const {
     register,
@@ -22,6 +29,9 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
   const [showPassword, setShowPassword] = useState(false);
+  const searchParams = useSearchParams();
+  const error = searchParams.get("error");
+
   const onSubmit = async (data: LoginInput) => {
     const response = await loginUser(data);
     if (!response) {
@@ -92,6 +102,12 @@ const Login = () => {
               message={errors.password.message as string}
               icon={Lock}
             ></ErrorMessage>
+          )}
+          {error && (
+            <ErrorMessage
+              message={errorMessages[error] || "An unexpected error occurred."}
+              icon={Lock}
+            />
           )}
         </div>
 
