@@ -18,6 +18,7 @@ export default {
         email: {},
         password: {},
       },
+      // TODO: Handle user linking multiple login options
       async authorize(credentials) {
         try {
           let user = null;
@@ -49,4 +50,21 @@ export default {
       },
     }),
   ],
+  callbacks: {
+    jwt({ token, user }) {
+      console.log("User: ", user);
+
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      if (token) session.user.id = token.id as string;
+      return session;
+    },
+  },
+  pages: {
+    signIn: "/auth/login",
+  },
 } satisfies NextAuthConfig;

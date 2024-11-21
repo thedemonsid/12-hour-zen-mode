@@ -1,3 +1,4 @@
+import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -76,6 +77,9 @@ export function CardWrapper({
                     Google
                   </Button>
                   <Button
+                    onClick={() => {
+                      signIn("github");
+                    }}
                     variant="outline"
                     className="w-full border border-purple-200 hover:bg-gray-50 text-gray-700 py-2 rounded-lg flex items-center justify-center gap-2"
                   >

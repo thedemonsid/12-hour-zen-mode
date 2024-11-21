@@ -15,18 +15,24 @@ export async function loginUser(input: LoginInput) {
       password,
       redirectTo: defaultLoginRedirect,
     });
-  } catch (error) {
+  } catch (error: any) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin": {
           return { success: false, message: "Invalid credentials" };
         }
+        case "AccountNotLinked": {
+          return { success: false, message: "Account not linked" };
+        }
+        case "OAuthAccountNotLinked": {
+          return { success: false, message: "OAuth Account not linked" };
+        }
         default: {
-          return { success: false, message: "Something went wrong!" };
+          return { success: false, message: error.message };
         }
       }
     }
-    throw error;
+    return { success: false, message: "Something Went Wrong" };
   }
   return { success: true, message: "Login successful" };
 }
